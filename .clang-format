@@ -1,0 +1,193 @@
+# Language: None, Cpp, Java, JavaScript, ObjC, Proto, TableGen, TextProto
+Language: Cpp
+# BasedOnStyle: LLVM
+
+# Offset of access specifiers (public, private, etc.)
+AccessModifierOffset: -4
+
+# Alignment after opening brackets (parentheses, angle brackets, square brackets): Align, DontAlign, AlwaysBreak
+AlignAfterOpenBracket: DontAlign
+
+# Align all equal signs in consecutive assignments
+AlignConsecutiveAssignments: false
+
+# Align variable names in consecutive declarations
+AlignConsecutiveDeclarations: false
+
+# Right-align escaped newlines (using backslash)
+AlignEscapedNewlines: Right
+
+# Align operands of binary and ternary expressions horizontally
+AlignOperands: true
+
+# Align trailing comments
+AlignTrailingComments: true
+
+# Do not allow all parameters of a function declaration to be on the next line
+AllowAllParametersOfDeclarationOnNextLine: false
+
+# Allow short blocks to be on a single line
+AllowShortBlocksOnASingleLine: true
+
+# Allow short case labels to be on a single line
+AllowShortCaseLabelsOnASingleLine: true
+
+# Allow short functions to be on a single line: None, InlineOnly (defined in a class), Empty (empty function), Inline (defined in a class, empty function), All
+AllowShortFunctionsOnASingleLine: None
+
+# Allow short if statements to be on a single line
+AllowShortIfStatementsOnASingleLine: true
+
+# Allow short loops to be on a single line
+AllowShortLoopsOnASingleLine: true
+
+# Always break after return type: None, All, TopLevel (top-level functions, excluding functions in classes), AllDefinitions (all definitions, excluding declarations), TopLevelDefinitions (definitions of top-level functions)
+AlwaysBreakAfterReturnType: None
+
+# Always break before multiline string literals
+AlwaysBreakBeforeMultilineStrings: false
+
+# Always break after template declarations
+AlwaysBreakTemplateDeclarations: true
+
+# When false, function arguments are either all on the same line or each on a separate line
+BinPackArguments: true
+
+# When false, all function parameters are either all on the same line or each on a separate line
+BinPackParameters: true
+
+# Brace wrapping for different contexts
+BraceWrapping:
+  AfterClass: false
+  AfterControlStatement: false
+  AfterEnum: false
+  AfterFunction: false
+  AfterNamespace: false
+  AfterStruct: false
+  AfterUnion: false
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+
+# Break before binary operators: None (break after the operator), NonAssignment (break before non-assignment operators), All (break before all operators)
+BreakBeforeBinaryOperators: All
+
+# Break before braces: Attach (always attach braces to surrounding context), Linux (similar to Attach, except for function, namespace, and class definitions), Mozilla (similar to Attach, except for enum, function, and record definitions), Stroustrup (similar to Attach, except for function definitions, catch, and else), Allman (always break before braces), GNU (always break before braces and add extra indentation for control statements), WebKit (break before braces for functions), Custom
+# Note: Here, statement blocks are also considered as functions
+BreakBeforeBraces: Custom
+
+# Break before ternary operators
+BreakBeforeTernaryOperators: true
+
+# Break after the colon in constructor initializers
+BreakConstructorInitializers: AfterColon
+
+#BreakInheritanceList: AfterColon
+
+BreakStringLiterals: false
+
+# Column limit per line, 0 means no limit
+ColumnLimit: 120
+
+CompactNamespaces: true
+
+# Constructor initializer list should either be all on one line or each on a separate line
+ConstructorInitializerAllOnOneLineOrOnePerLine: false
+
+# Indentation width for constructor initializer list
+ConstructorInitializerIndentWidth: 4
+
+# Indentation width for continuation lines
+ContinuationIndentWidth: 4
+
+# Remove spaces around braces for C++11 braced list initialization
+Cpp11BracedListStyle: true
+
+# Align most commonly used pointers and references
+DerivePointerAlignment: false
+
+# Fix namespace comments
+FixNamespaceComments: true
+
+# Indent case labels
+IndentCaseLabels: false
+
+IndentPPDirectives: None
+
+# Indentation width
+IndentWidth: 4
+
+# Indent wrapped function names when the return type is broken to a new line
+IndentWrappedFunctionNames: false
+
+# Keep empty lines at the start of blocks
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Maximum number of consecutive empty lines to keep
+MaxEmptyLinesToKeep: 1
+
+# Namespace indentation: None, Inner (indent content in nested namespaces), All
+NamespaceIndentation: All
+
+# Pointer and reference alignment: Left, Right, Middle
+PointerAlignment: Right
+
+# Allow reflowing comments
+ReflowComments: false
+
+# Allow sorting #include directives
+SortIncludes: CaseSensitive
+
+# Allow sorting using declarations
+SortUsingDeclarations: false
+
+# Add a space after C-style casts
+SpaceAfterCStyleCast: false
+
+# Add a space after the "template" keyword
+SpaceAfterTemplateKeyword: true
+
+# Add a space before assignment operators
+SpaceBeforeAssignmentOperators: true
+
+# SpaceBeforeCpp11BracedList: true
+
+# SpaceBeforeCtorInitializerColon: true
+
+# SpaceBeforeInheritanceColon: true
+
+# Add a space before opening parentheses: Never, ControlStatements, Always
+SpaceBeforeParens: ControlStatements
+
+# SpaceBeforeRangeBasedForLoopColon: true
+
+# Add a space in empty parentheses
+SpaceInEmptyParentheses: false
+
+# Add spaces around the angle brackets in template arguments
+SpacesInAngles: false
+
+# Add spaces in C-style cast parentheses
+SpacesInCStyleCastParentheses: false
+
+# Add spaces in container (arrays, dictionaries, etc. in ObjC and JavaScript) literals
+SpacesInContainerLiterals: true
+
+# Add spaces around parentheses
+SpacesInParentheses: false
+
+# Add spaces around square brackets, except for lambda expressions and declarations of arrays with unspecified size
+SpacesInSquareBrackets: false
+
+# Standard: Cpp03, Cpp11, Auto
+Standard: c++11
+
+# Tab width
+TabWidth: 4
+
+# Use tab characters: Never, ForIndentation, ForContinuationAndIndentation, Always
+UseTab: Never
