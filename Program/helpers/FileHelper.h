@@ -84,11 +84,11 @@ inline void saveResult(Individual &bestSol, Params &params, int numStations,
     int timeBudget = (int)Args::timeBudget / 3600;
     // round the prop to 2 decimal places
     float roundedProp = roundf(prop * 100) / 100;
-    std::string fileName =
-        std::string(dirName) + std::to_string(numStations) + "_" +
-        std::to_string(instanceNum) + "_t" + std::to_string(Args::nbTrk) +
-        "_r" + std::to_string(Args::nbRpm) + "_p" +
-        std::to_string(roundedProp) + "_" + std::to_string(timeBudget) + "h_";
+    std::string fileName = std::string(dirName) + std::to_string(numStations) +
+                           "_" + std::to_string(instanceNum) + "_t" +
+                           std::to_string(Args::nbTrk) + "_r" +
+                           std::to_string(Args::nbRpm) + "_" +
+                           std::to_string(timeBudget) + "h_";
     // find how many files start with fileName in the directory
     int count = 0;
     for (const auto &entry : std::filesystem::directory_iterator(dirName)) {

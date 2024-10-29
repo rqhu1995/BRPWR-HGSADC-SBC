@@ -1,6 +1,6 @@
 #!/bin/bash
-cd cmake-build-debug || exit
-
+cd build || exit
+tb=$1
 # Define the maximum number of parallel jobs
 max_parallel_jobs=4 # 16 threads / 4 threads per instance
 
@@ -17,7 +17,7 @@ station_instances=(
 )
 
 # Define the number of runs
-num_runs=100
+num_runs=20
 
 # Iterate over each station and its corresponding instances
 for n_station in "${!station_instances[@]}"; do
@@ -36,7 +36,7 @@ for n_station in "${!station_instances[@]}"; do
 
           # Start a new screen session and run the command
           screen -dmS "$session_name" bash -c "
-                        ./main -ns '$n_station' -i '$inst' -edu 20 -ntrk '$ntrk' -nrpm '$nrpm' -noimp 5000 -tb 10800;
+                        ./main -ns '$n_station' -i '$inst' -edu 20 -ntrk '$ntrk' -nrpm '$nrpm' -noimp 5000 -tb '$tb';
                         exit
                     "
 

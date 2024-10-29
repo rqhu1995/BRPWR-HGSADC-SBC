@@ -54,3 +54,7 @@ cmake-build-*
 # data files
 Instances/
 Solutions/
+
+.clang-format
+.clangd
+*.ipynb
