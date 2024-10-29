@@ -1,8 +1,27 @@
 # BRPWR-HGSADC-SBC
 
+<img width="300" alt="image" src="https://github.com/user-attachments/assets/e8944330-73f0-487c-bb94-db8f715a79cb">
+
+
+## Description
+
 The repository provides the data and codes to conduct the experiments in the paper "Repositioning in bike sharing systems with broken bikes considering on-site repairs". Specifically, the repository implements the **Hybrid Genetic Search Adaptive Diversity Control and Station Budget Constrained Heuristic (BRPWR-HGSADC-SBC)** algorithm to solve the **Bike Repositioning Problem with on-site Repairers**.
 
-⚠️ Note there is another project solving the problem to optimal using Gurobi, which can be found [here](https://github.com/rqhu1995/BRPWR-Gurobi/tree/main).
+⚠️ Note: There is another project solving the problem to optimal using Gurobi, which can be found [here](https://github.com/rqhu1995/BRPWR-Gurobi/tree/main).
+
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Data description and usage](#data-description-and-usage)
+  - [Data naming and format description](#data-naming-and-format-description)
+  - [Data specification on the correspondence to experiments in the paper](#data-specification-on-the-correspondence-to-experiments-in-the-paper)
+  - [Using the data](#using-the-data)
+- [Dependencies](#dependencies)
+- [Building the Project](#building-the-project)
+- [Running the Project](#running-the-project)
+- [Check the solution](#check-the-solution)
+- [Credits](#credits)
+
 
 ## Project Structure
 
@@ -182,7 +201,7 @@ dissat[29] = 9.43885
 dissat[30] = 19.2044
 ```
 
-# credits
+## Credits
 
 The code is developed based on the code implementation in [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) in a related papers:
 
