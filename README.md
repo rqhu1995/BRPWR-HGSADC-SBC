@@ -2,6 +2,8 @@
 
 The repository provides the data and codes to conduct the experiments in the paper "Repositioning in bike sharing systems with broken bikes considering on-site repairs". Specifically, the repository implements the **Hybrid Genetic Search Adaptive Diversity Control and Station Budget Constrained Heuristic (BRPWR-HGSADC-SBC)** algorithm to solve the **Bike Repositioning Problem with on-site Repairers**.
 
+⚠️ Note there is another project solving the problem to optimal using Gurobi, which can be found [here](https://github.com/rqhu1995/BRPWR-Gurobi/tree/main).
+
 ## Project Structure
 
 - **Program/**: Contains the main C++ source code for the BRPWR-HGSADC-SBC algorithm.
@@ -14,7 +16,7 @@ The repository provides the data and codes to conduct the experiments in the pap
   - `RepositionScheme.h`, `Station.h`: Defines the repositioning scheme and station properties.
   - `main.cpp`: The main entry point for running the algorithm.
 - **CMakeLists.txt**: Configuration file for building the project using CMake.
-- **run.sh**, **runall.sh**, **prop.sh**: Shell scripts to run experiments and automate different scenarios.
+- **small.sh**, **large.sh**: Shell scripts to run experiments and automate different sizes of experiments.
 - **LICENSE**: License file for the repository.
 - **README.md**: This file, providing an overview of the project.
 
