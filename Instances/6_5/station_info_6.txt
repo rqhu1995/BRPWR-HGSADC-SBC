@@ -1,0 +1,7 @@
+station_id	capacity	curUsable	targetUsable	curBroken
+351	23	5	15	3
+193	47	7	1	0
+460	14	5	8	0
+102	31	20	12	3
+269	27	7	20	16
+452	18	12	6	0

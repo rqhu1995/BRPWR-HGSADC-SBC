@@ -52,7 +52,6 @@ cmake-build-*
 *.app
 
 # data files
-Instances/
 Solutions/
 
 .clang-format

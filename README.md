@@ -34,6 +34,7 @@ The repository provides the data and codes to conduct the experiments in the pap
   - `Population.cpp`, `Population.h`: Handles the population evolution process.
   - `RepositionScheme.h`, `Station.h`: Defines the repositioning scheme and station properties.
   - `main.cpp`: The main entry point for running the algorithm.
+- **Instances/**: Contains the data for different instances of the bike repositioning problem.
 - **CMakeLists.txt**: Configuration file for building the project using CMake.
 - **small.sh**, **large.sh**: Shell scripts to run experiments and automate different sizes of experiments.
 - **LICENSE**: License file for the repository.
