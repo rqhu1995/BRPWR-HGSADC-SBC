@@ -179,3 +179,15 @@ dissat[28] = 9.29928
 dissat[29] = 9.43885
 dissat[30] = 19.2044
 ```
+
+# credits
+
+The code is developed based on the code implementation in [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) in a related papers:
+
+When using this algorithm (or part of it) in derived academic studies, please refer to the following works:
+
+[1] Vidal, T., Crainic, T. G., Gendreau, M., Lahrichi, N., Rei, W. (2012). A hybrid genetic algorithm for multidepot and periodic vehicle routing problems. Operations Research, 60(3), 611-624. https://doi.org/10.1287/opre.1120.1048
+
+[2] Vidal, T. (2022). Hybrid genetic search for the CVRP: Open-source implementation and SWAP* neighborhood. Computers & Operations Research, 140, 105643. https://doi.org/10.1016/j.cor.2021.105643
+
+We would like to thank the authors for providing the code.
