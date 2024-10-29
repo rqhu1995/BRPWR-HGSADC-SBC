@@ -56,4 +56,4 @@ Solutions/
 
 .clang-format
 .clangd
-*.ipynb
+process.ipynb
