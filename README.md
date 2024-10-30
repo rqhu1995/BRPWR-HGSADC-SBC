@@ -135,7 +135,7 @@ or
 Note that for large instances, we utilized `GNU screen` to attach the process in the background and better manage the results. Hence [the installation of `screen`](https://www.gnu.org/software/screen/) is required to use the script `large.sh`.
 
 ## Check the solution
-Solutions will be saved in the folder `Solutions`, and the name of the solution file is `<number of stations>_<instance no.>_t<truck number>_r<repairer number>_<time budget in hours>h_<running time>`, with the content be like:
+Solutions will be saved in txt files under the folder `Solutions`, and the name of the solution file is `<number of stations>_<instance no.>_t<truck number>_r<repairer number>_<time budget in hours>h_<running time>`.txt, with the content be like:
 
 ```
 the best solution is: 
