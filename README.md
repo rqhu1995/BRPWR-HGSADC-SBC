@@ -206,7 +206,7 @@ dissat[30] = 19.2044
 
 The code is developed referring to the code implementation in [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) in a related papers:
 
-When using this algorithm (or part of it) in derived academic studies, quotation and credit should be given to the following works:
+When using this algorithm (or part of it) in derived academic studies, quotations and credits should be given to the following works:
 
 [1] Vidal, T., Crainic, T. G., Gendreau, M., Lahrichi, N., Rei, W. (2012). A hybrid genetic algorithm for multidepot and periodic vehicle routing problems. Operations Research, 60(3), 611-624. https://doi.org/10.1287/opre.1120.1048
 
