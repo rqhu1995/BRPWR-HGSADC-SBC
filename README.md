@@ -204,7 +204,7 @@ dissat[30] = 19.2044
 
 ## Credits
 
-The code is developed referring to the code implementation in [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) in a related papers:
+The code is developed referring to the code implementation in [HGS-CVRP](https://github.com/vidalt/HGS-CVRP) in related papers.
 
 When using this algorithm (or part of it) in derived academic studies, quotations and credits should be given to the following works:
 
