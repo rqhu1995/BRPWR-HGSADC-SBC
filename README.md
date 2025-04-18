@@ -58,15 +58,6 @@ The folders `X_Y` provide data for different sizes (`X` stations). `Y` here is t
 - `X_Y` with `X = 6, 10, 15` and `Y = 1, 2, 3, 4, 5` correspond to the experiments on small scale instances in Section 5.2 of the paper.
 - `X_Y` with `X = 60, 90, 120, 200, 300, 400, 500` and `Y = 1` correspond to the experiments on large scale instances in Section 5.3 of the paper.
 
-### Using the data
-
-To use the data,  [pandas](https://pandas.pydata.org/) library is recommended. The following code snippet shows how to read the data:
-
-```python
-import pandas as pd
-df_station_info = pd.read_csv('Instances/6_1/station_info_6.txt', sep='\t', header=0)
-df_time_matrix = pd.read_csv('Instances/6_1/time_matrix_6.txt', sep='\t')
-```
 
 ## Dependencies
 
