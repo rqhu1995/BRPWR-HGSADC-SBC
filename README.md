@@ -5,7 +5,9 @@
 
 ## Description
 
-The repository provides the data and codes to conduct the experiments in the paper "Repositioning in bike sharing systems with broken bikes considering on-site repairs". Specifically, the repository implements the **Hybrid Genetic Search Adaptive Diversity Control and Station Budget Constrained Heuristic (BRPWR-HGSADC-SBC)** algorithm to solve the **Bike Repositioning Problem with on-site Repairers**.
+The repository provides the data and codes to conduct the experiments in the paper [Repositioning in bike sharing systems with broken bikes considering on-site repairs](https://doi.org/10.1016/j.tre.2025.104155) published in Transportation Research Part E. 
+
+Specifically, the repository implements the **Hybrid Genetic Search Adaptive Diversity Control and Station Budget Constrained Heuristic (BRPWR-HGSADC-SBC)** algorithm to solve the **Bike Repositioning Problem with on-site Repairers**.
 
 ⚠️ Note: There is another project solving the problem to optimal using Gurobi, which can be found [here](https://github.com/rqhu1995/BRPWR-Gurobi/tree/main).
 
