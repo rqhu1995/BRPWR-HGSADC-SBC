@@ -206,3 +206,22 @@ When using this algorithm (or part of it) in derived academic studies, quotation
 [2] Vidal, T. (2022). Hybrid genetic search for the CVRP: Open-source implementation and SWAP* neighborhood. Computers & Operations Research, 140, 105643. https://doi.org/10.1016/j.cor.2021.105643
 
 We would like to thank the authors for sharing the source code for references.
+
+## Citation & Acknowledgement
+
+Development and further research based on this repository are welcomed. Please cite the research properly where applicable. The **BibTeX** info is provided as follows:
+
+```latex
+@article{HU2025104155,
+title = {Repositioning in bike sharing systems with broken bikes considering on-site repairs},
+journal = {Transportation Research Part E: Logistics and Transportation Review},
+volume = {201},
+pages = {104155},
+year = {2025},
+issn = {1366-5545},
+doi = {https://doi.org/10.1016/j.tre.2025.104155},
+url = {https://www.sciencedirect.com/science/article/pii/S1366554525001966},
+author = {Runqiu Hu and W.Y. Szeto and Sin C. Ho},
+keywords = {Bike repositioning problem, Broken bike repositioning, On-site repair routing, Time-indexed formulation, Station budget constrained heuristic},
+}
+```
