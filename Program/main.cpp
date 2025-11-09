@@ -22,9 +22,15 @@ int main(int argc, char *argv[]) {
   Individual bestSol = genetic.run();
   FileHelper::saveResult(bestSol, params, Args::nbStns, Args::nbInst,
                          Args::brokenProp, genetic);
-  //   std::vector<std::vector<int>> trkRoute = {{0, 1, 2, 13, 6, 0}};
-  //   std::vector<std::vector<int>> rpmRoute = {{0, 9, 14, 12, 4, 15, 3, 0}};
-  //   Individual bestSol = Individual(params, instance, rpmRoute, trkRoute);
+  // std::vector<std::vector<int>> trkRoute = {{0, 1, 2, 13, 6, 0}};
+  // std::vector<std::vector<int>> rpmRoute = {{0, 9, 14, 12, 4, 15, 3, 0}};
+
+  // auto start = std::chrono::high_resolution_clock::now();
+  // Individual bestSol = Individual(params, instance, rpmRoute, trkRoute);
+  // auto end = std::chrono::high_resolution_clock::now();
+  // std::chrono::duration<double> elapsed = end - start;
+  // std::cout << "Time taken to calculate bestSol: " << elapsed.count()
+  //           << " seconds" << std::endl;
 
   //   bestSol.displayAnIndividual();
   return 0;
