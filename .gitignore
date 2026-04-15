@@ -1,3 +1,11 @@
+# macOS
+.DS_Store
+
+# IDE / editor
+.cache/
+.cursorindexingignore
+.specstory/
+
 # Build directory
 build
 
@@ -53,6 +61,9 @@ cmake-build-*
 
 # data files
 Solutions/
+eudf_matrices/
+coord.csv
+trip_count_15min*.csv
 
 .clang-format
 .clangd
