@@ -36,9 +36,10 @@ void LocalSearch::run(Individual &indiv) {
   while (!move_list.empty()) {
     int index = getRand(move_list.size()); // choose a random index
     EduOp edu_op = move_list[index].first; // get the function at that index
+    std::string op_name = move_list[index].second; // cache name before erase
     auto fit_v = indiv.eval.objVal;
     Individual educated_ind =
-        executeAndDisplayMove(edu_op, indiv, move_list[index].second);
+        executeAndDisplayMove(edu_op, indiv, op_name);
     move_list.erase(move_list.begin() + index); // remove the chosen function
     if (educated_ind.eval.objVal < fit_v) {
       int consecutive_imp = 0;
@@ -46,7 +47,7 @@ void LocalSearch::run(Individual &indiv) {
       indiv = educated_ind;
       fit_v = indiv.eval.objVal;
       while (consecutive_imp < params.itEDU && consecutive < 1000) {
-        executeAndDisplayMove(edu_op, educated_ind, move_list[index].second);
+        executeAndDisplayMove(edu_op, educated_ind, op_name);
         if (educated_ind.eval.objVal >= fit_v) {
           consecutive_imp += 1;
         } else {

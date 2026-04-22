@@ -756,7 +756,10 @@ void extraUpdate(std::vector<std::pair<int, double>> &uldExtraTime, const int &c
 
 void combineTheConsecutiveDuplicateNode(std::vector<std::vector<int>> &routes, bool isRPM) {
     for (auto &route : routes) {
-        if (route[0] == 0 && route[1] == 0 && route.size() == 2) { continue; }
+        // Short-circuit order matters: size check must come first. Otherwise
+        // route[0]/route[1] trips _GLIBCXX_ASSERTIONS when route.size() < 2
+        // (e.g. a trivially empty route handed in during GA perturbation).
+        if (route.size() == 2 && route[0] == 0 && route[1] == 0) { continue; }
         // Combine consecutive duplicate elements
         auto it = std::unique(route.begin(), route.end());
         route.resize(std::distance(route.begin(), it));

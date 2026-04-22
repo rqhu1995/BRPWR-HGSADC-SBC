@@ -283,6 +283,11 @@ void Individual::greedyAssignmentForTrucks(Params &params, std::vector<int> &cur
 void Individual::fixZeroLoading(std::vector<int> &curUsableBak, std::vector<int> &curBrokenBak, Params &params,
     std::vector<int> &curUsable, std::vector<int> &curBroken, std::vector<int> &trkVector, Instance &instance,
     std::vector<RSchemeT> &newScheme) {
+    // Guard: the range [begin()+1, end()-1) requires size >= 2. When there are
+    // fewer than two entries (e.g. only depot bookends or an empty scheme) there
+    // is nothing to filter. Without this guard, find_if walks past end() and
+    // triggers a heap-buffer-overflow (caught by AddressSanitizer).
+    if (newScheme.size() < 2) { return; }
     // Use find_if to determine if there is any element with all quantities zero
     auto zeroLoadingIt = std::find_if(newScheme.begin() + 1, newScheme.end() - 1, [](const RSchemeT scheme) {
         return scheme->loadingQuantityU == 0 && scheme->loadingQuantityB == 0 &&
