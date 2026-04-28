@@ -1,145 +1,123 @@
 //
 // Created by Runqiu on 09/10/2023.
+// Unified-HDF5 loader (Tier B-0, schema v1). Replaces per-station txt reads.
 //
 
 #include "Instance.h"
 #include <cmath>
-#include <fstream>
-#include <iostream>
-#include <sstream>
+#include <climits>
+#include <highfive/H5File.hpp>
 
-Instance::Instance(int nbClient, const std::string &instNo, double proportion, bool expIsProportion) {
-    std::string pathToInstance
-        = "../Instances/" + std::to_string(nbClient) + "_" + instNo + "/";
+
+namespace {
+
+// Replace NaN entries with 0.0 to preserve downstream consumer semantics:
+// dissatTable / priorityTable / priorityTableR originally used 0.0 as sentinel
+// for (p + b > capacity) cells. The HDF5 schema uses NaN for that sentinel;
+// convert back to 0.0 on load.
+void ReplaceNanWithZero(std::vector<std::vector<double>> &table) {
+    for (auto &row : table) {
+        for (auto &v : row) {
+            if (std::isnan(v)) { v = 0.0; }
+        }
+    }
+}
+
+// Slice a (N, C_max+1, C_max+1) stack into per-station (C_i+1, C_i+1) table,
+// replacing NaN sentinels with 0.0.
+std::vector<std::vector<double>> SliceAndDepad(
+    const std::vector<std::vector<std::vector<double>>> &stack,
+    int station_zero_based,
+    int capacity_i) {
+    const auto &slab = stack[station_zero_based];
+    std::vector<std::vector<double>> out(
+        capacity_i + 1, std::vector<double>(capacity_i + 1, 0.0));
+    for (int p = 0; p <= capacity_i; ++p) {
+        for (int b = 0; b <= capacity_i; ++b) {
+            double v = slab[p][b];
+            out[p][b] = std::isnan(v) ? 0.0 : v;
+        }
+    }
+    return out;
+}
+
+}  // namespace
+
+
+Instance::Instance(int nbClient, const std::string &instNo, double proportion,
+                   bool expIsProportion) {
+    const std::string h5_path =
+        "../Instances_h5/" + std::to_string(nbClient) + "_" + instNo + ".h5";
+
     isProportion = expIsProportion;
     nbClients = nbClient;
     proportionRatio = proportion;
 
-    readMatrixFromFile(pathToInstance);
-    readStationInfoFromFile(pathToInstance, isProportion);
-    readDissatisTable(pathToInstance);
-    readPriorityTable(pathToInstance);
-    readPriorityTableR(pathToInstance);
-}
+    HighFive::File file(h5_path, HighFive::File::ReadOnly);
 
-void Instance::readMatrixFromFile(const std::string &filepath) {
-    std::ifstream inputFile(filepath + "time_matrix_" + std::to_string(nbClients) + ".txt");
+    // --- time_matrix: (N+1) x (N+1), seconds ---
+    file.getDataSet("/time_matrix").read(dist_mtx);
 
-    if (inputFile.is_open()) {
-        std::string line;
-        while (std::getline(inputFile, line)) {
-            std::istringstream iss(line);
-            std::vector<double> row;
-            double temp;
-            while (iss >> temp) { row.push_back(temp); }
-            dist_mtx.push_back(row);
-        }
-    } else {
-        throw std::runtime_error("Could not open file: " + filepath);
-    }
-}
+    // --- /stations per-field 1D arrays ---
+    std::vector<int> cap_arr;
+    std::vector<int> cur_usable;
+    std::vector<int> cur_broken;
+    std::vector<int> target_usable;
+    file.getDataSet("/stations/capacity").read(cap_arr);
+    file.getDataSet("/stations/current_usable").read(cur_usable);
+    file.getDataSet("/stations/current_broken").read(cur_broken);
+    file.getDataSet("/stations/target_usable").read(target_usable);
 
-void Instance::readStationInfoFromFile(const std::string &filepath, bool proportion) {
     networkInfo.reserve(nbClients + 1);
-    // insert the depot at the beginning of the vector, with usableBike = inf,
-    // brokenBike = 0, targetUsable = inf, capacity = inf
+    // Depot at index 0 (sentinel: usable=INT_MAX, broken=0, target=INT_MAX, cap=INT_MAX)
     networkInfo.emplace_back(0, INT_MAX, 0, INT_MAX, INT_MAX);
-    std::ifstream inputFile(filepath + "station_info_" + std::to_string(nbClients) + ".txt");
-    if (inputFile.is_open()) {
-        std::string line;
-        int id = 1;
-        std::getline(inputFile, line); // skip the first line
-        while (std::getline(inputFile, line)) {
-            std::istringstream iss(line);
-            // Read the rest of the numbers
-            int real_id, usableBike, brokenBike, targetUsable, capacity;
-            if (!proportion) {
-                if (iss >> real_id >> capacity >> usableBike >> targetUsable >> brokenBike) {
-                    networkInfo.emplace_back(id, usableBike, brokenBike, targetUsable, capacity);
-                } else {
-                    throw std::runtime_error("Could not read a number from line: " + line);
-                }
+
+    for (int i = 0; i < nbClients; ++i) {
+        const int id = i + 1;
+        const int capacity = cap_arr[i];
+        const int usable = cur_usable[i];
+        const int target = target_usable[i];
+        int broken = cur_broken[i];
+
+        if (isProportion) {
+            if (usable > target) {
+                broken = 0;
             } else {
-                if (iss >> real_id >> capacity >> usableBike >> targetUsable) {
-                    if (usableBike > targetUsable) {
-                        brokenBike = 0;
-                    } else if (usableBike <= targetUsable) {
-                        brokenBike = ceil(proportionRatio * (targetUsable - usableBike));
-                        brokenBike = std::min(brokenBike, capacity - usableBike);
-                    }
-                    networkInfo.emplace_back(id, usableBike, brokenBike, targetUsable, capacity);
-                } else {
-                    throw std::runtime_error("Could not read a number from line: " + line);
-                }
+                broken = static_cast<int>(std::ceil(
+                    proportionRatio * (target - usable)));
+                broken = std::min(broken, capacity - usable);
             }
-            id++;
         }
-    } else {
-        throw std::runtime_error("Could not open file: " + filepath);
+        networkInfo.emplace_back(id, usable, broken, target, capacity);
+    }
+
+    // --- /eudf/dissat_table, /eudf/bcrf_truck, /eudf/bcrf_repair ---
+    // Each is (N, C_max+1, C_max+1) float64. Slice per-station, NaN → 0.0.
+    std::vector<std::vector<std::vector<double>>> dissat_stack;
+    std::vector<std::vector<std::vector<double>>> bcrf_truck_stack;
+    std::vector<std::vector<std::vector<double>>> bcrf_repair_stack;
+    file.getDataSet("/eudf/dissat_table").read(dissat_stack);
+    file.getDataSet("/eudf/bcrf_truck").read(bcrf_truck_stack);
+    file.getDataSet("/eudf/bcrf_repair").read(bcrf_repair_stack);
+
+    // Legacy indexing:
+    //   dissatTable: index 0 is a placeholder, stations are dissatTable[1..N]
+    //   priorityTable / priorityTableR: 0-indexed, stations are [0..N-1]
+    dissatTable.emplace_back();  // 1-based placeholder
+
+    for (int i = 0; i < nbClients; ++i) {
+        const int cap_i = cap_arr[i];
+        dissatTable.push_back(SliceAndDepad(dissat_stack, i, cap_i));
+        priorityTable.push_back(SliceAndDepad(bcrf_truck_stack, i, cap_i));
+        priorityTableR.push_back(SliceAndDepad(bcrf_repair_stack, i, cap_i));
     }
 }
 
-void Instance::readDissatisTable(const std::string &filepath) {
-    dissatTable.emplace_back();
-
-    for (int i = 1; i <= nbClients; i++) {
-        std::vector<std::vector<double>> data;
-        std::string line;
-        std::ifstream file(filepath + "dissat_table_" + std::to_string(i) + ".txt");
-        if (!file) { std::cerr << "Could not open the file!\n"; }
-        while (std::getline(file, line)) {
-            // Create a string stream for the line
-            std::stringstream ss(line);
-
-            // Create a vector to hold the numbers on this line
-            std::vector<double> row;
-
-            // Read each number from the line
-            double value;
-            while (ss >> value) {
-                // Add the number to the row vector
-                row.push_back(value);
-            }
-
-            // Add the row to the main vector
-            data.push_back(row);
-        }
-        dissatTable.push_back(data);
-    }
-}
-
-void Instance::readPriorityTable(const std::string &filepath) {
-    for (int i = 1; i <= nbClients; ++i) {
-        std::vector<std::vector<double>> curPriorityTable;
-        std::ifstream inFile(filepath + "BCRF_" + std::to_string(i) + ".txt");
-        std::string line;
-        while (std::getline(inFile, line)) {
-            std::istringstream iss(line);
-            std::vector<double> row;
-
-            double value;
-            while (iss >> value) { row.push_back(value); }
-
-            curPriorityTable.push_back(row);
-        }
-        priorityTable.push_back(curPriorityTable);
-    }
-}
-
-void Instance::readPriorityTableR(const std::string &filepath) {
-    for (int i = 1; i <= nbClients; ++i) {
-        std::vector<std::vector<double>> curPriorityTable;
-        std::ifstream inFile(filepath + "BCRFR_" + std::to_string(i) + ".txt");
-        std::string line;
-        while (std::getline(inFile, line)) {
-            std::istringstream iss(line);
-            std::vector<double> row;
-
-            double value;
-            while (iss >> value) { row.push_back(value); }
-
-            curPriorityTable.push_back(row);
-        }
-        priorityTableR.push_back(curPriorityTable);
-    }
-}
+// Legacy stubs — left in place for ABI compatibility with the header, but
+// no longer invoked. The constructor now reads everything from one HDF5 file.
+void Instance::readMatrixFromFile(const std::string & /*filepath*/) {}
+void Instance::readStationInfoFromFile(const std::string & /*filepath*/,
+                                       bool /*proportion*/) {}
+void Instance::readDissatisTable(const std::string & /*filepath*/) {}
+void Instance::readPriorityTable(const std::string & /*filepath*/) {}
+void Instance::readPriorityTableR(const std::string & /*filepath*/) {}

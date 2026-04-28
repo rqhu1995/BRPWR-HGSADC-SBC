@@ -8,6 +8,8 @@
 
 # Build directory
 build
+build-*/
+build_*/
 
 # Test build files
 Test/CMakeFiles/
