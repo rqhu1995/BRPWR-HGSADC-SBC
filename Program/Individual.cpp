@@ -468,7 +468,10 @@ void Individual::feasibilityCheckOfSolution(Params &params, Instance &instance) 
 }
 
 void Individual::solutionEvaluation(Params &params) {
-    this->eval.objVal = 2 * this->eval.dissat + 0.06 * this->eval.emission
+    // Paper 3 / dissertation drops the CO2 emission term; restore 0.06 to
+    // match the Paper 1 objective. Emission is still computed above and
+    // available on Individual::eval for diagnostic output.
+    this->eval.objVal = 2 * this->eval.dissat + 0.0 * this->eval.emission
                         + 1e-8
                               * (this->eval.routeTRK + this->eval.routeRPM + this->eval.operationTimeTRK
                                   + this->eval.operationTimeRPM)
